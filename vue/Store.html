@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuex Store</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js"></script>
+</head>
+<body>
+
+<div id="app" style="font-family: sans-serif;">
+
+    {{ message }}
+
+    <my-userlist></my-userlist>
+
+</div>
+
+<script>
+
+    Vue.use(Vuex);
+
+    // Define a new component called my-input
+    Vue.component('my-userlist', {
+
+        template: `
+		  	<div>
+                <ul>
+                    <li v-for="(username, index) in userlist" :key="index">
+                    {{ username }}
+                    </li>
+                </ul>
+            </div>
+        `,
+
+        data() {
+            return {
+                userlist: []
+            }
+        },
+
+        created() {
+            this.loadAsyncUserlist();
+        },
+
+        methods: {
+            loadAsyncUserlist() {
+                window.setTimeout(() => {
+                    this.userlist = [
+                        'Toni Tester',
+                        'Klaus Lage',
+                        'Rudi Voeller',
+                        'Karl Lauterbach'
+                    ];
+                }, 1000)
+            }
+        }
+    });
+
+    const store = new Vuex.Store({
+
+    })
+
+    // Root component
+    new Vue({
+        el: '#app',
+        store: store,
+        data: {
+            message: 'Hello Store!'
+        }
+    });
+
+</script>
+
+</body>
+</html>
