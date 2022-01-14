@@ -116,9 +116,7 @@ So verhalten sich die eigenen Eingabefelder ähnlich wie native HTML Elemente.
 ## Computed properties
 
 Ein sinnvolle Methode um Zustände abzubilden sind "computed properties". Gerade zu Template Steuerung bieten sich diese an. 
-Computed properties werden von Vue "cached" nach dem sie ausgewertet werden. Insofern muss bei der Implementierung darauf geachtet werden,
-dass sie bei einer Zustandsänderung erneut ausgewertet werden können. Bei komplexen Datentypen wie Objekte und Arrays gibt es Einschränkungen
-(leider nicht durch YouTube Premium abgedeckt), welche beachtet werden müssen. 
+Computed properties werden von Vue "cached" nach dem sie ausgewertet werden. Insofern muss bei der Implementierung darauf geachtet werden, dass sie bei einer Zustandsänderung erneut ausgewertet werden können. Bei komplexen Datentypen wie Objekte und Arrays gibt es Einschränkungen (leider nicht durch YouTube Premium abgedeckt), welche beachtet werden müssen. 
 
 ```js
 <template>
