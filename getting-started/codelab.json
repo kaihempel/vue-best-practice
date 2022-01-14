@@ -1,0 +1,23 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-12-17T09:51:42Z",
+  "id": "getting-started",
+  "duration": 0,
+  "title": "Workshop: Vue best practice",
+  "summary": "Workshop: Vue best practice",
+  "source": ".workshop/guide.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "frontend development"
+  ],
+  "tags": [
+    "js"
+  ],
+  "url": "getting-started"
+}

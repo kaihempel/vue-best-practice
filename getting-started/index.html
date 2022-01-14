@@ -1,0 +1,237 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Workshop: Vue best practice</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="getting-started"
+                  title="Workshop: Vue best practice"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Einführung" duration="0">
+        <p>Vue.js biete viele möglichkeiten interaktive Frontends zu implementieren. Mit wachsender Komplexität sind einige dieser<br>Wege zu bevorzugen. Andere sollten gemieden werden.</p>
+<p>In diesem Workshop werden folgende Konzepte näher besprochen:</p>
+<ul>
+<li>Simple Eingabe Elemente</li>
+<li>Vuex Store</li>
+<li>Lifecycle Events</li>
+<li>Memory managment</li>
+</ul>
+<h3 is-upgraded>Hinweis:</h3>
+<p>Dieser Workshop basiert auf der Vue Version 2.</p>
+<h2 is-upgraded>Umgang mit diesem Workshop</h2>
+<aside class="warning"><p><strong>ROT markiert:</strong><br>Fortgeschrittene Implementierungen, solltet ihr euch nur damit befassen, falls ich flotter oder erfahrener unterwegs seid! Zuerst die einfachen Aufgaben erledigen, danach die Fortgeschritten, andernfalls kommt ihr mit der Zeit von 60 Minuten nicht hin!</p>
+</aside>
+<aside class="special"><p><strong>Grün markiert:</strong><br>Erstellen/Implementierung notwendig. (Ihr müsst hier selber überlegen und neuen Code schreiben)</p>
+</aside>
+<aside class="special"><p><strong>Gelb markiert:</strong><br>Anpassungen notwendig (Ihr müsst hier selber überlegen und bestehenden Code anpassen)</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Simple Eingabe Elemente" duration="0">
+        <h2 is-upgraded>Komunikation zwischen Komponenten</h2>
+<p>Die Kommunikation zwischen Komponente geschieht mit hilfe von &#34;Properties&#34; (Parent -&gt; Child)<br>und Customs-Events (Child -&gt; Parent).</p>
+<h3 is-upgraded>Properties</h3>
+<ul>
+<li><a href="https://vuejs.org/v2/guide/components-props.html" target="_blank">https://vuejs.org/v2/guide/components-props.html</a></li>
+</ul>
+<h3 is-upgraded>Customs Events</h3>
+<ul>
+<li><a href="https://vuejs.org/v2/guide/components-custom-events.html" target="_blank">https://vuejs.org/v2/guide/components-custom-events.html</a></li>
+</ul>
+<h3 is-upgraded>Model binding</h3>
+<ul>
+<li><a href="https://vuejs.org/v2/guide/forms.html" target="_blank">https://vuejs.org/v2/guide/forms.html</a></li>
+</ul>
+<h2 is-upgraded>Simple Input Komponente</h2>
+<pre><code>&lt;template&gt;
+    &lt;div class=&#34;mein-tolles-design&#34;&gt;
+        &lt;input :message=&#34;message&#34; @input=&#34;message = $event.target.value&#34; /&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default MyInput {
+    data: {
+        return {
+            message: &#39;test&#39;
+        }       
+    }
+}
+&lt;/script&gt;
+</code></pre>
+<p>Das Eingabe Feld hat ein tolles Design, kann aber in der Applikation noch nicht wie ein normales Eingabefeld genutzt werden.<br>Dafür muss die übergeordnete Komponente den Wert &#34;message&#34; setzen können. Ebenso muss eine Änderung dieser Komponente übergeben werden.</p>
+<pre><code>&lt;template&gt;
+    &lt;div class=&#34;mein-tolles-design&#34;&gt;
+        &lt;input :value=&#34;message&#34; @input=&#34;message = $event.target.value&#34; /&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default MyInput {
+    props: [&#39;message&#39;]
+}
+&lt;/script&gt;
+</code></pre>
+<p>Jetzt kommt es allerdings zu einem Fehler, da eine &#34;Propertie&#34; nicht geändert werden darf!<br>Wir brauchen eine Methode, welche die Event Daten weiter reicht.</p>
+<pre><code>&lt;template&gt;
+    &lt;div class=&#34;mein-tolles-design&#34;&gt;
+        &lt;input :value=&#34;message&#34; @input=&#34;handleInputEvent&#34; /&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default MyInput {
+    props: [&#39;message&#39;],
+    methods: {
+        handleInputEvent($e) {
+            this.$emit(&#39;input&#39;, $e.target.value);    
+        }       
+    }
+}
+&lt;/script&gt;
+</code></pre>
+<p>Wenn &#34;Propertie&#34; den Namen &#34;value&#34; hat und das Event den Namen &#34;input&#34; kann auch die Vereinfachung &#34;v-model&#34; genutzt werden.<br>So kann die übergeordnete Komponente eine Variable direkt an die Komponente binden.<br>So verhalten sich die eigenen Eingabefelder ähnlich wie native HTML Elemente.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Computed properties" duration="0">
+        <p>Ein sinnvolle Methode um Zustände abzubilden sind &#34;computed properties&#34;. Gerade zu Template Steuerung bieten sich diese an.<br>Computed properties werden von Vue &#34;cached&#34; nach dem sie ausgewertet werden. Insofern muss bei der Implementierung darauf geachtet werden,<br>dass sie bei einer Zustandsänderung erneut ausgewertet werden können. Bei komplexen Datentypen wie Objekte und Arrays gibt es Einschränkungen<br>(leider nicht durch YouTube Premium abgedeckt), welche beachtet werden müssen.</p>
+<pre><code>&lt;template&gt;
+    &lt;div class=&#34;mein-tolles-design&#34;&gt;
+        &lt;ul v-for=&#34;(value, index) in dataList&#34;&gt;
+            &lt;li :key=&#34;index&#34;&gt;
+                &#123;&#123;value}}
+            &lt;/li&gt; 
+        &lt;/ul&gt;    
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default MyInput {
+    data: {
+        return {
+            dataList: []
+        }       
+    }
+}
+&lt;/script&gt;
+</code></pre>
+<p>Soll bei einer leeren Liste ein alternativ Text dargestellt werden:</p>
+<pre><code>&lt;template&gt;
+    &lt;div class=&#34;mein-tolles-design&#34;&gt;
+        &lt;ul 
+            v-if=&#34;dataList.length &gt; 0&#34;
+            v-for=&#34;(value, index) in dataList&#34;&gt;
+            &lt;li :key=&#34;index&#34;&gt;
+                &#123;&#123;value}}
+            &lt;/li&gt; 
+        &lt;/ul&gt;
+        &lt;div v-else&gt;
+            Keine Daten!
+        &lt;/div&gt;    
+    &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+<p>Alternativ kann die Prüfung im Template Code durch eine &#34;computed propertie&#34; ersetzt werden. Dadurch wird eine bessere Lesbarkeit erreicht.<br>Des Weiteren können komplexere Auswertungen viel leichter und verständlicher umgesetzt werden.</p>
+<pre><code>&lt;template&gt;
+    &lt;div class=&#34;mein-tolles-design&#34;&gt;
+        &lt;ul 
+            v-if=&#34;hasData&#34;
+            v-for=&#34;(value, index) in dataList&#34;&gt;
+            &lt;li :key=&#34;index&#34;&gt;
+                &#123;&#123;value}}
+            &lt;/li&gt; 
+        &lt;/ul&gt; 
+        &lt;div v-else&gt;
+            Keine Daten!
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default MyInput {
+    data: {
+        return {
+            dataList: []
+        }       
+    },
+    computed: {
+        hasData() {
+            return this.dataList.length &gt; 0;    
+        }       
+    }
+}
+&lt;/script&gt;
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Vuex Store" duration="0">
+        <p>Komplexe Zustände des gesamt Systems sollten über den Vuex Store abgebildet werden.</p>
+<ul>
+<li><a href="https://vuex.vuejs.org/" target="_blank">https://vuex.vuejs.org/</a></li>
+</ul>
+<p>Ebenso empfiehlt sich dieser für eine Komplexere und Applikationsweite Kommunikation. Oft hat man das Problem, dass Komponenten aktualisiert werden sollen, welche nicht direkt durch ein Event erreicht werden können.<br>Oft findet man im Web dafür den Lösungsansatz des Eventbus. Einer separaten Vue Instanz, welche nur zum abarbeiten von Events genutzt werden soll. Dadurch können die Eventhandler in ganz anderen Komponenten implementiert werden, welche keinen direkten Zusammenhang zu den emitierenden Komponenten haben.<br>Leider ergeben sich daraus folgenden Probleme:</p>
+<ul>
+<li>Schwerer zu Debuggen</li>
+<li>Eventhandler müssen gezielt wieder entfernt werden</li>
+<li>Entfernen Schwierig wenn einige Komponenten noch länger vorhanden sind</li>
+</ul>
+<p>Alternativ kann auch der Store für Temporäre Zustände genutzt werden.</p>
+<h2 is-upgraded>Verschiedene Store operationen</h2>
+<p>Im Vuex Store gibt es drei Arten von Daten Interaktionen:</p>
+<ul>
+<li>Getter</li>
+<li>Mutations</li>
+<li>Actions</li>
+</ul>
+<p>Getter sind im Grunde &#34;computed properties&#34;, welche den aktuellen Zustand des Systems nach aussen repräsentieren.<br>Wichtig ist hier, dass das Prinzip der &#34;computed properties&#34; verstanden wurde. Auch bei den Gettern gelten die entsprechenden Einschränkungen.</p>
+<p>Mutations setzten neue Werte! Mutations <strong>müssen</strong> immer synchron sein! Für Asynchrone Operationen sind die Actions vorgesehen.</p>
+<p>Actions sollen auch Werte ändern, sind aber, wie oben erwähnt, für die Asynchron Operationen vorgesehen.<br>Ein Beispiel dafür sind Backend Operationen über einen Ajax Call.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Lifecycle Events" duration="0">
+        
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Memory managment" duration="0">
+        
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
