@@ -12,10 +12,5 @@
   "scripts": {
     "docs": "docker container run -it --rm -v $(pwd):/app bpetetot/claat export .workshop/guide.md",
     "autoload": "php composer.phar dump-autoload"
-  },
-  "autoload": {
-    "psr-4": {
-      "pharma4u\\workshop\\": "lib/"
-    }
   }
 }
