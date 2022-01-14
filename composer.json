@@ -1,0 +1,21 @@
+{
+  "name": "pharma4u/workshop-vue",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Kai Hempel",
+      "email": "hempel@wir-machen-amts.de"
+    }
+  ],
+  "scripts": {
+    "docs": "docker container run -it --rm -v $(pwd):/app bpetetot/claat export .workshop/guide.md",
+    "autoload": "php composer.phar dump-autoload"
+  },
+  "autoload": {
+    "psr-4": {
+      "pharma4u\\workshop\\": "lib/"
+    }
+  }
+}
