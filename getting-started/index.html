@@ -212,17 +212,85 @@ export default MyInput {
 <p>Getter sind im Grunde &#34;computed properties&#34;, welche den aktuellen Zustand des Systems nach aussen repräsentieren.<br>Wichtig ist hier, dass das Prinzip der &#34;computed properties&#34; verstanden wurde. Auch bei den Gettern gelten die entsprechenden Einschränkungen.</p>
 <p>Mutations setzten neue Werte! Mutations <strong>müssen</strong> immer synchron sein! Für Asynchrone Operationen sind die Actions vorgesehen.</p>
 <p>Actions sollen auch Werte ändern, sind aber, wie oben erwähnt, für die Asynchron Operationen vorgesehen.<br>Ein Beispiel dafür sind Backend Operationen über einen Ajax Call.</p>
+<p>Ein Store Beispiel:</p>
+<pre><code>const store = new Vuex.Store({
+  state: {
+      list: []
+  },
+  mutations: {
+      addItem (state, item) {
+         state.list.push(item);
+      },
+      setList (state, list) {
+         state.list = list;
+      }
+  },
+  actions: {
+      loadItems (context) {
+          ajaxCall().then(data =&gt; {
+              context.commit(&#39;setList&#39;, data.list);
+          });
+      }
+  }
+})
+</code></pre>
+<p>Den Store in Vue einbinden:</p>
+<pre><code>new Vue({
+  el: &#39;#app&#39;,
+  store: store,
+})
+</code></pre>
+<p>Ausführen einer Mutation:</p>
+<pre><code>store.commit(&#39;addItem&#39;, item);
+
+// Oder in vue via this.$store
+
+this.$store.commit(&#39;addItem&#39;, item);
+</code></pre>
+<p>Ausführen einer Action:</p>
+<pre><code>store.dispatch(&#39;loadItems&#39;);
+
+// Oder in vue via this.$store
+
+this.$store.dispatch(&#39;loadItems&#39;);
+</code></pre>
+<p>Zugriff auf den Store (state):</p>
+<pre><code>store.state.list;
+
+// Oder in vue via this.$store
+
+this.$store.state.list;
+</code></pre>
+<p>Oder mithilfe der getter:</p>
+<pre><code>...
+getters: {
+    // ...
+    itemCount: (state) =&gt; {
+        return state.list.length
+    }
+}
+...
+
+store.getters.itemCount;
+
+// Oder in vue via this.$store
+
+this.$store.getters.itemCount;
+</code></pre>
+<p>Getters, Mutations und Actions können auch importiert werden und dann innerhalb der Vue Komponente direkt benutzt werden.</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Lifecycle Events" duration="0">
-        
+        <p>tbd</p>
+
 
       </google-codelab-step>
     
       <google-codelab-step label="Memory managment" duration="0">
-        
+        <p>tbd</p>
+
 
       </google-codelab-step>
     
