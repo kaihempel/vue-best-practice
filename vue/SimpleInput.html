@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple input element</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app" style="font-family: sans-serif;">
+
+    {{ message }}
+
+    <div>
+        <my-input></my-input>
+    </div>
+
+</div>
+
+<script>
+
+    // Define a new component called my-input
+    Vue.component('my-input', {
+
+        template: `
+		  	<div>
+                <input :value="myValue" @input="myValue = $event.target.value" />
+            </div>
+        `,
+
+        data() {
+            return {
+                myValue: 'TEST'
+            }
+        }
+    });
+
+    // Root component
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Simple Input!',
+        }
+    });
+
+</script>
+
+</body>
+</html>

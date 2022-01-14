@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Computed properties</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app" style="font-family: sans-serif;">
+
+    {{ message }}
+
+    <div>
+        <my-user-menu :user="user"></my-user-menu>
+    </div>
+
+</div>
+
+<script>
+
+    // Define a new component called my-input
+    Vue.component('my-user-menu', {
+
+        template: `
+		  	<div>
+                <ul v-for="(item, index) in menuItems">
+                    <my-menu-item
+                        :show="item.role === user.role || item.role === 'all'"
+                        :menuname="item.name">
+
+                    </my-menu-item>
+                </ul>
+            </div>
+        `,
+
+        props: [ 'user' ],
+
+        data() {
+            return {
+                menuItems: [
+                    {
+                        name: 'Profil',
+                            role: 'all'
+                    },
+                    {
+                        name: 'Einstellungen',
+                            role: 'all'
+                    },
+                    {
+                        name: 'Statistik',
+                            role: 'admin'
+                    },
+                    {
+                        name: 'Benutzer',
+                            role: 'admin'
+                    }
+                ]
+            }
+        }
+    });
+
+    Vue.component('my-menu-item', {
+
+        template: `
+		  	<li v-if="show === true">
+                {{ menuname }}
+            </li>
+        `,
+
+        props: [ 'menuname', 'show' ]
+    });
+
+    // Root component
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Computed Properties!',
+            user: {
+                firstname: 'Karl',
+                lastname: 'Lauterbach',
+                email: 'der.boss@bmfg.de',
+                role: 'user'
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>
