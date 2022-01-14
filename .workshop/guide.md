@@ -226,6 +226,89 @@ Mutations setzten neue Werte! Mutations **müssen** immer synchron sein! Für As
 Actions sollen auch Werte ändern, sind aber, wie oben erwähnt, für die Asynchron Operationen vorgesehen. 
 Ein Beispiel dafür sind Backend Operationen über einen Ajax Call.
 
+Ein Store Beispiel:
+```js
+const store = new Vuex.Store({
+  state: {
+      list: []
+  },
+  mutations: {
+      addItem (state, item) {
+         state.list.push(item);
+      },
+      setList (state, list) {
+         state.list = list;
+      }
+  },
+  actions: {
+      loadItems (context) {
+          ajaxCall().then(data => {
+              context.commit('setList', data.list);
+          });
+      }
+  }
+})
+```
+
+Den Store in Vue einbinden:
+```js
+new Vue({
+  el: '#app',
+  store: store,
+})
+```
+
+Ausführen einer Mutation:
+```js
+store.commit('addItem', item);
+
+// Oder in vue via this.$store
+
+this.$store.commit('addItem', item);
+```
+
+Ausführen einer Action:
+```js
+store.dispatch('loadItems');
+
+// Oder in vue via this.$store
+
+this.$store.dispatch('loadItems');
+```
+
+Zugriff auf den Store (state):
+```js
+store.state.list;
+
+// Oder in vue via this.$store
+
+this.$store.state.list;
+```
+
+Oder mithilfe der getter:
+```js
+...
+getters: {
+    // ...
+    itemCount: (state) => {
+        return state.list.length
+    }
+}
+...
+
+store.getters.itemCount;
+
+// Oder in vue via this.$store
+
+this.$store.getters.itemCount;
+```
+
+Getters, Mutations und Actions können auch importiert werden und dann innerhalb der Vue Komponente direkt benutzt werden.
+
 ## Lifecycle Events
 
+tbd
+
 ## Memory managment
+
+tbd
