@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lifecycle Hooks</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app" style="font-family: sans-serif;">
+
+    {{ message }}
+
+    <my-userlist></my-userlist>
+
+</div>
+
+<script>
+
+    // Define a new component called my-input
+    Vue.component('my-userlist', {
+
+        template: `
+		  	<div>
+                <ul ref="userlist">
+                    <li v-for="(username, index) in userlist" :key="index">
+                    {{ username }}
+                    </li>
+                </ul>
+            </div>
+        `,
+
+        data() {
+            return {
+                userlist: []
+            }
+        },
+
+        beforeCreate() {
+            console.log('beforeCreate');
+        },
+
+        created() {
+            console.log('created');
+        },
+
+        beforeMount() {
+            console.log('beforeMount');
+        },
+
+        mounted() {
+            console.log('mounted');
+        },
+
+        beforeUpdate() {
+            console.log('beforeUpdate');
+        },
+
+        updated() {
+            console.log('updated');
+        },
+
+        beforeDestroy() {
+            console.log('beforeDestroy');
+        },
+
+        destroyed() {
+            console.log('destroyed');
+        },
+
+        methods: {
+            loadAsyncUserlist() {
+                window.setTimeout(() => {
+                    this.userlist = [
+                        'Toni Tester',
+                        'Klaus Lage',
+                        'Rudi Voeller',
+                        'Karl Lauterbach'
+                    ];
+                }, 1000)
+            }
+        }
+    });
+
+    // Root component
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Lifecycle Hooks!'
+        }
+    });
+
+</script>
+
+</body>
+</html>
