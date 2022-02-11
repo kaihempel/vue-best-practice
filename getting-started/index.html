@@ -282,8 +282,19 @@ this.$store.getters.itemCount;
 
       </google-codelab-step>
     
-      <google-codelab-step label="Lifecycle Events" duration="0">
-        <p>tbd</p>
+      <google-codelab-step label="Lifecycle Hooks" duration="0">
+        <p>Eine Vue Komponente hat immer einen einen definierten Lebenszyklus. Sie wird erstellt, im DOM dargestellt, der User arbeitet mit der Komponente und am ende wird die Komponente auch wieder entfernt.<br>Die offizielle Dokumentation findet sich unter:</p>
+<ul>
+<li><a href="https://v2.vuejs.org/v2/guide/instance.html" target="_blank">https://v2.vuejs.org/v2/guide/instance.html</a></li>
+</ul>
+<p>Bei den Lifecycle Events gibt es verschiedene dinge zu beachten, denn nicht alle features sind in den Hook Funktionen nutzbar.</p>
+<p>Die Wichtigsten Hooks sind:</p>
+<ul>
+<li>created</li>
+<li>mounted</li>
+<li>beforeDestroy</li>
+</ul>
+<p>Für jeden Hook kann pro Vue Komponente eine Funktion implementiert werden, welche auf diese Event im Lebenszyklus der Komponente reagiert.</p>
 
 
       </google-codelab-step>
