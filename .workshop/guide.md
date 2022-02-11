@@ -303,9 +303,22 @@ this.$store.getters.itemCount;
 
 Getters, Mutations und Actions können auch importiert werden und dann innerhalb der Vue Komponente direkt benutzt werden.
 
-## Lifecycle Events
+## Lifecycle Hooks
 
-tbd
+Eine Vue Komponente hat immer einen einen definierten Lebenszyklus. Sie wird erstellt, im DOM dargestellt, der User arbeitet mit der Komponente und am ende wird die Komponente auch wieder entfernt.
+Die offizielle Dokumentation findet sich unter:
+
+- [https://v2.vuejs.org/v2/guide/instance.html](https://v2.vuejs.org/v2/guide/instance.html)
+
+Bei den Lifecycle Events gibt es verschiedene dinge zu beachten, denn nicht alle features sind in den Hook Funktionen nutzbar.
+
+Die Wichtigsten Hooks sind:
+
+- created
+- mounted
+- beforeDestroy
+
+Für jeden Hook kann pro Vue Komponente eine Funktion implementiert werden, welche auf diese Event im Lebenszyklus der Komponente reagiert.
 
 ## Memory managment
 
